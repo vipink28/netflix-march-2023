@@ -5,6 +5,7 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import './index.css';
+import '../node_modules/bootstrap/dist/js/bootstrap.bundle';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
