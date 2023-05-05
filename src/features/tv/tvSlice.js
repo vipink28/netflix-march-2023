@@ -19,7 +19,6 @@ const initialState = {
     }
   );
 
-
   export const tvSlice = createSlice({
     name: 'tv',
     initialState,
@@ -39,5 +38,7 @@ const initialState = {
         })
     }
   })
+
+  export const selectNetflixOriginals = (state) => state.tv.nfOriginals;
 
   export default tvSlice.reducer;
