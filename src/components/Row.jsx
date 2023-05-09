@@ -1,16 +1,13 @@
 import React, { useEffect } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { Navigation } from "swiper";
 import "swiper/css";
+import 'swiper/css/navigation';
 import { useDispatch, useSelector } from "react-redux";
-import Card from './Card';
-import { fetchTopRatedTv, selectTopRatedTv } from "../features/tv/tvSlice";
-
+import Card from "./Card";
 function Row(props) {
-
-    const {title, action, selector} = props;
-    console.log(selector);
+  const { title, action, selector } = props;
   const content = useSelector(selector);
-//   console.log(data);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(action());
@@ -21,19 +18,18 @@ function Row(props) {
       <h2>{title}</h2>
 
       <Swiper
-        spaceBetween={50}
-        slidesPerView={3}
-        onSlideChange={() => console.log("slide change")}
-        onSwiper={(swiper) => console.log(swiper)}
+        modules={[Navigation]}
+        spaceBetween={20}
+        slidesPerView={5}
+        navigation
       >
-        {
-            content.data?.results.map((item)=>{
-                return <SwiperSlide key={item.id}>
-                    <Card video={item}/>
-                </SwiperSlide>      
-            })
-        }
-        
+        {content.data?.results.map((item) => {
+          return (
+            <SwiperSlide key={item.id}>
+              <Card video={item} />
+            </SwiperSlide>
+          );
+        })}
       </Swiper>
     </div>
   );

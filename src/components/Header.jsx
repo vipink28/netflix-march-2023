@@ -4,9 +4,15 @@ import {
   fetchNetflixOriginals,
   selectNetflixOriginals,
 } from "../features/tv/tvSlice";
+import { fetchHeaderDetails } from "../features/common/commonSlice";
 
 function Header(props) {
   const { video } = props;
+  const dispatch = useDispatch();
+  useEffect(()=>{
+    dispatch(fetchHeaderDetails({platform: 'tv', id: video?.id}))
+  }, [video, dispatch])
+  
   return (
     <div className="position-relative">
       {video ? (
