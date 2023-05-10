@@ -14,7 +14,7 @@ function Row(props) {
   }, [action, dispatch]);
 
   return (
-    <div>
+    <div  className="video-row">
       <h2>{title}</h2>
 
       <Swiper

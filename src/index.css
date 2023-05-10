@@ -42,6 +42,10 @@ input[type=number] {
     color: #d5d5d5;
 }
 
+.navbar-brand{
+    max-width: 130px;
+}
+
 .title{
     font-family: 'Calistoga', cursive;
 }
