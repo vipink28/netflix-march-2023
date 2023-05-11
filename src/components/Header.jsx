@@ -2,6 +2,8 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeaderDetails, selectHeaderDetails } from "../features/common/commonSlice";
 import { trimYear, truncate } from "../helper";
+import Ratings from "./Ratings";
+import YoutubePlayer from "./YoutubePlayer";
 
 function Header(props) {
   const { video } = props;
@@ -13,12 +15,17 @@ function Header(props) {
     dispatch(fetchHeaderDetails({platform: 'tv', id: video?.id}))
   }, [video, dispatch])
 
+  const trailerKey = details.data?.videos.results[0].key;
 
 
 
   
   return (
     <div className="position-relative vh-100">
+
+      <YoutubePlayer trailerKey={trailerKey}/>
+
+
       {details.data ? (
         <img
           className="header-img"
@@ -44,6 +51,12 @@ function Header(props) {
               })    
           }        
         </div>
+        <div className="mt-3">
+          <Ratings voteAverage={details.data?.vote_average} voteCount={details.data?.vote_count} />
+        </div>
+
+        <button className="btn btn-danger">Play Trailer</button>
+
       </div>
 
       <div className="header-vignette"></div>
