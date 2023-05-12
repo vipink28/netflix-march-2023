@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchHeaderDetails, selectHeaderDetails } from "../features/common/commonSlice";
 import { trimYear, truncate } from "../helper";
@@ -7,6 +7,8 @@ import YoutubePlayer from "./YoutubePlayer";
 
 function Header(props) {
   const { video } = props;
+  const [showTrailer, setShowTrailer]= useState(false);
+  const [trailerList, setTrailerList] = useState(null);
 
   const details = useSelector(selectHeaderDetails);
 
@@ -15,17 +17,26 @@ function Header(props) {
     dispatch(fetchHeaderDetails({platform: 'tv', id: video?.id}))
   }, [video, dispatch])
 
-  const trailerKey = details.data?.videos.results[0].key;
+  useEffect(()=>{
+    if(details.data){
+      let list = details.data?.videos.results;
+      setTrailerList(list);
+    }
+  }, [details.data])
+  // const trailerKey = details.data?.videos.results[0].key;
+
+  const playTrailer = ()=>{
+    setShowTrailer(true);
+  }
 
 
-
-  
   return (
     <div className="position-relative vh-100">
-
-      <YoutubePlayer trailerKey={trailerKey}/>
-
-
+      {
+        showTrailer ?
+      <YoutubePlayer trailer={trailerList}/>
+        :
+      <>
       {details.data ? (
         <img
           className="header-img"
@@ -35,7 +46,6 @@ function Header(props) {
       ) : (
         ""
       )}
-
       <div className="caption text-white">
         <h2 className="display-1 fw-bold title">{details.data?.name || details.data?.original_name || details.data?.title || details.data?.original_title}</h2>
 
@@ -55,11 +65,12 @@ function Header(props) {
           <Ratings voteAverage={details.data?.vote_average} voteCount={details.data?.vote_count} />
         </div>
 
-        <button className="btn btn-danger">Play Trailer</button>
+        <button className="btn btn-danger" onClick={playTrailer}>Play Trailer</button>
 
       </div>
-
       <div className="header-vignette"></div>
+      </>
+      }
       <div className="header-bottom-vignette"></div>
     </div>
   );
