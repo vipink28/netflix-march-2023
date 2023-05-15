@@ -6,13 +6,12 @@ import 'swiper/css/navigation';
 import { useDispatch, useSelector } from "react-redux";
 import Card from "./Card";
 function Row(props) {
-  const { title, action, selector } = props;
+  const { title, action, selector, platform } = props;
   const content = useSelector(selector);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(action());
   }, [action, dispatch]);
-
   return (
     <div  className="video-row">
       <h2>{title}</h2>
@@ -26,7 +25,7 @@ function Row(props) {
         {content.data?.results.map((item) => {
           return (
             <SwiperSlide key={item.id}>
-              <Card video={item} />
+              <Card video={item} platform={platform} />
             </SwiperSlide>
           );
         })}

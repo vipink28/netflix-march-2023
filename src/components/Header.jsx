@@ -4,6 +4,7 @@ import { fetchHeaderDetails, selectHeaderDetails } from "../features/common/comm
 import { trimYear, truncate } from "../helper";
 import Ratings from "./Ratings";
 import YoutubePlayer from "./YoutubePlayer";
+import GenreLink from "./GenreLink";
 
 function Header(props) {
   const { video } = props;
@@ -57,7 +58,7 @@ function Header(props) {
         <div className="d-flex">
           {
               details.data?.genres.map((item)=>{
-                return <span key={item.id} className="badge text-bg-warning me-2">{item.name}</span>
+                return <GenreLink key={item.id} genre={item} />
               })    
           }        
         </div>

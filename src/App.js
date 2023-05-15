@@ -6,6 +6,7 @@ import Browse from './pages/Browse';
 import BrowseByGenre from './pages/BrowseByGenre';
 import PageNotFound from './pages/PageNotFound';
 import Navigation from './components/Navigation';
+import DetailsModal from './components/DetailsModal';
 function App() {
   return (
       <BrowserRouter>
@@ -16,6 +17,8 @@ function App() {
           <Route path="/browsebygenre" element={<BrowseByGenre />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
+
+        <DetailsModal />
       </BrowserRouter>
   );
 }
