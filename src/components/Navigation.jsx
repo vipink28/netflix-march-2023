@@ -19,10 +19,10 @@ function Navigation(props) {
                 <NavLink className="nav-link active" aria-current="page" to="/">Home</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/browse">Tv Shows</NavLink>
+                <NavLink className="nav-link" to="/browse/tv">Tv Shows</NavLink>
               </li>
               <li className="nav-item">
-                <NavLink className="nav-link" to="/browse">Movies</NavLink>
+                <NavLink className="nav-link" to="/browse/movie">Movies</NavLink>
               </li>
               <li className="nav-item">
                 <NavLink className="nav-link" to="/browsebygenre">Browse by Genre</NavLink>

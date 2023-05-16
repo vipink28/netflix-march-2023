@@ -38,6 +38,7 @@ function Homescreen(props) {
     <>
       <Header
         video={nfOriginals.data ? nfOriginals.data.results[randomNumber] : null}
+        platform="tv"
       />
 
       <div className="container-fluid">

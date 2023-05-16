@@ -7,7 +7,7 @@ import YoutubePlayer from "./YoutubePlayer";
 import GenreLink from "./GenreLink";
 
 function Header(props) {
-  const { video } = props;
+  const { video, platform } = props;
   const [showTrailer, setShowTrailer]= useState(false);
   const [trailerList, setTrailerList] = useState(null);
 
@@ -15,8 +15,8 @@ function Header(props) {
 
   const dispatch = useDispatch();
   useEffect(()=>{
-    dispatch(fetchHeaderDetails({platform: 'tv', id: video?.id}))
-  }, [video, dispatch])
+    dispatch(fetchHeaderDetails({platform: platform, id: video?.id}))
+  }, [video, platform, dispatch])
 
   useEffect(()=>{
     if(details.data){
