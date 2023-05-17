@@ -14,7 +14,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Homescreen />}></Route>
           <Route path="/browse/:platform" element={<Browse />}></Route>
-          <Route path="/browsebygenre" element={<BrowseByGenre />}></Route>
+          <Route path="/browsebygenre/:platform/:id" element={<BrowseByGenre />}></Route>
           <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
 

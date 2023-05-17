@@ -58,7 +58,7 @@ function Header(props) {
         <div className="d-flex">
           {
               details.data?.genres.map((item)=>{
-                return <GenreLink key={item.id} genre={item} />
+                return <GenreLink key={item.id} genre={item} platform={platform} genreId={item.id} />
               })    
           }        
         </div>
