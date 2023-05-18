@@ -7,23 +7,45 @@ function BrowseByGenre(props) {
   const { platform, id } = useParams();
   const [videoList, setVideoList] = useState(null);
   const [genreList, setGenreList] = useState(null);
+  const [genreName, setGenreName] = useState(null);
+  const [selectedPlatform, setSelectedPlatform] = useState(null);
+  const [genreId, setGenreId]=useState(null);
 
-  useEffect(() => {
-    const fetchVideosByGenre = async () => {
-      const response = await axios(requests.getByGenre(platform, id));
-      setVideoList(response.data.results);
-    };
-    fetchVideosByGenre();
+
+  const fetchGenreList = async (val) => {
+    const response = await axios(requests.getGenreList(val));
+    setGenreList(response.data.genres);
+    const genre = response.data.genres.find((item)=>(item.id === Number(id)));
+    setGenreName(genre.name);
+  };
+
+  //
+  const fetchVideosByGenre = async (platform, id) => {
+    const response = await axios(requests.getByGenre(platform, id));
+    setVideoList(response.data.results);
+  };
+
+
+  useEffect(() => {    
+    fetchVideosByGenre(platform, id);
   }, []);
+
+  useEffect(()=>{    
+    fetchGenreList(platform);
+    setSelectedPlatform(platform);
+  }, [])
 
   const onPlatformSelect=async(e)=>{
     const { value } = e.target;
-    const response = await axios(requests.getGenreList(value));
-    setGenreList(response.data.genres);
+    fetchGenreList(value);
+    setSelectedPlatform(value);
   }
 
-  const onGenreSelect=()=>{
-
+  const onGenreSelect=(e)=>{
+    const { value } = e.target;
+    fetchVideosByGenre(selectedPlatform, value);
+    const genre = genreList.find((item)=>(item.id === Number(value)));
+    setGenreName(genre.name);
   }
 
   return (
@@ -31,8 +53,8 @@ function BrowseByGenre(props) {
       <div className="d-flex">
         <p className="ms-auto">Select Genre</p>
         <select name="platform" onChange={onPlatformSelect}>
-          <option value="tv">Tv</option>
-          <option value="movie">Movie</option>
+          <option value="tv" selected={platform === "tv" ? "selected": ""}>Tv</option>
+          <option value="movie" selected={platform === "movie" ? "selected": ""}>Movie</option>
         </select>
 
         <select name="genres" onChange={onGenreSelect}>
@@ -43,6 +65,7 @@ function BrowseByGenre(props) {
         }          
         </select>
       </div>
+      <h2>{genreName}</h2>
       <div className="row gy-4">
         {videoList?.map((item) => {
           return (
