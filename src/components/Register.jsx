@@ -1,9 +1,14 @@
 import React, { useState } from "react";
-import { auth } from "../firebaseConfig";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../auth/firbaseconfig";
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch } from "react-redux";
+import { userAuth } from "../auth/authSlice";
 
 function Register(props) {
   const [formData, setFormData] = useState(null);
+  const [error, setError] = useState();
+  
+  const dispatch = useDispatch();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -12,22 +17,29 @@ function Register(props) {
       [name]: value,
     }));
   };
-
   const onSubmit = (e) => {
     e.preventDefault();
     createUserWithEmailAndPassword(auth, formData.email, formData.password)
       .then((userCredential) => {
         // Signed in
         const user = userCredential.user;
-        console.log(user);
+        if(userCredential){
+          updateProfile(auth.currentUser, {
+            displayName: formData.name, photoURL: "https://example.com/jane-q-user/profile.jpg"
+          }).then(() => {
+             // Profile updated!
+            // ...
+            console.log(auth.currentUser);
+            dispatch(userAuth({status:true, user: user.uid}))
+          }).catch((error) => {
+            // An error occurred
+            // ...
+          });
+        }        
         // ...
       })
       .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-
-        console.log(errorMessage);
-        // ..
+        setError({errorCode: error.code, errorMessage: error.message});
       });
   };
 
@@ -37,7 +49,7 @@ function Register(props) {
       <form>
         <div className="mb-3">
           <label>Name</label>
-          <input type="text" className="form-control" onChange={handleChange} />
+          <input type="text" name="name" className="form-control" onChange={handleChange} />
         </div>
         <div className="mb-3">
           <label>Email</label>
@@ -57,7 +69,10 @@ function Register(props) {
             onChange={handleChange}
           />
         </div>
-        <button className="btn btn-primary" onClick={onSubmit}>Register</button>
+        <p>{error?.errorCode}, {error?.errorMessage}</p>
+        <button className="btn btn-primary" onClick={onSubmit}>
+          Register
+        </button>
       </form>
     </div>
   );
